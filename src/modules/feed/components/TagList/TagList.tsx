@@ -1,14 +1,19 @@
-import React from "react";
+import { FC } from "react";
 
-const TagList = () => {
+interface TagListProps {
+  tagList: string[];
+}
+
+const TagList: FC<TagListProps> = ({ tagList }) => {
   return (
-    <ul className='flex gap-1'>
-      <li className='font-light text-sm text-tag border border-lightgray rounded-3xl px-2.5 mb-1'>movie</li>
-      <li className='font-light text-sm text-tag border border-lightgray rounded-3xl px-2.5 mb-1'>serial</li>
-      <li className='font-light text-sm text-tag border border-lightgray rounded-3xl px-2.5 mb-1'>game</li>
-      <li className='font-light text-sm text-tag border border-lightgray rounded-3xl px-2.5 mb-1'>book</li>
+    <ul className="flex gap-1">
+      {tagList.map((tag, index) => (
+        <li key={`${tag}-${index}`} className="font-light text-sm text-tag border border-lightgray rounded-3xl px-2.5 mb-1">
+          {tag}
+        </li>
+      ))}
     </ul>
-  )
+  );
 };
 
 export default TagList;

@@ -1,13 +1,13 @@
 import Banner from './common/components/Banner/Banner';
 import Header from './common/components/Header/Header';
-import Article from './modules/feed/components/Article/Article';
+import Feed from './modules/feed/components/Feed/Feed';
 
 function App() {
   return (
     <div>
       <Header />
       <Banner />
-      <Article />
+      <Feed />
     </div>
   );
 }
