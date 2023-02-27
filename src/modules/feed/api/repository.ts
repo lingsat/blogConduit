@@ -1,6 +1,11 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
 import { axiosBaseQuery } from "../../../core/axiosBaseQuery";
-import { GlobalFeedIn } from '../dto/globalFeed.in';
+import { FEED_PAGE_SIZE } from "../consts";
+import { GlobalFeedIn } from "../dto/globalFeed.in";
+
+interface GlobalFeedParams {
+  page: number;
+}
 
 export const feedApi = createApi({
   reducerPath: "feedApi",
@@ -8,8 +13,12 @@ export const feedApi = createApi({
     baseUrl: "https://api.realworld.io/api",
   }),
   endpoints: (builder) => ({
-    getGlobalFeed: builder.query<GlobalFeedIn, any>({
-      query: () => ({ url: "/articles", method: "get" }),
+    getGlobalFeed: builder.query<GlobalFeedIn, GlobalFeedParams>({
+      query: ({ page }) => ({
+        url: "/articles",
+        method: "get",
+        params: { limit: FEED_PAGE_SIZE, offset: page * FEED_PAGE_SIZE },
+      }),
     }),
   }),
 });

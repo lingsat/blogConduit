@@ -13,6 +13,7 @@ module.exports = {
         lightgray: "#bbb",
         darkgrey: "#999",
         mainblack: "#373a3c",
+        pageHoverBg: "#eceeef",
         tag: "#aaa",
       },
       boxShadow: {

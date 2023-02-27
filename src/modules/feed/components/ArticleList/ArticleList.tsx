@@ -9,12 +9,12 @@ interface ArticleListProps {
 
 const ArticleList: FC<ArticleListProps> = ({ list }) => {
   return (
-    <div className="w-3/4">
+    <>
       <FeedToggle />
       {list?.map((article) => (
         <Article key={article.slug} article={article} />
       ))}
-    </div>
+    </>
   );
 };
 

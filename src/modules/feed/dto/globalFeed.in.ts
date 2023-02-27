@@ -1,6 +1,6 @@
 export interface GlobalFeedIn {
   articles: ArticleIn[];
-  atriclesCount: number;
+  articlesCount: number;
 }
 
 export interface ArticleIn {
