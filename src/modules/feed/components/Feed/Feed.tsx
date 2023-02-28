@@ -6,6 +6,7 @@ import { FEED_PAGE_SIZE } from "../../consts";
 import { useState } from "react";
 import { useSearchParams } from 'react-router-dom';
 import { serializeSearchParams } from '../../../../utils/router';
+import TagCloud from '../TagCloud/TagCloud';
 
 const Feed = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -28,7 +29,7 @@ const Feed = () => {
 
   return (
     <Container>
-      <div className="flex gap-8 px-2">
+      <div className="flex gap-8">
         <div className="w-3/4">
           <ArticleList list={data?.articles || []} />
           <ReactPaginate
@@ -45,7 +46,9 @@ const Feed = () => {
             forcePage={page}
           />
         </div>
-        <div className="w-1/4">tags123123123123123</div>
+        <div className="w-1/4">
+          <TagCloud />
+        </div>
       </div>
     </Container>
   );

@@ -15,6 +15,9 @@ module.exports = {
         mainblack: "#373a3c",
         pageHoverBg: "#eceeef",
         tag: "#aaa",
+        tagCloudBg: "#f3f3f3",
+        tagItemBg: "#818a91",
+        tagItemBgHover: "#687877",
       },
       boxShadow: {
         mainBanner:
