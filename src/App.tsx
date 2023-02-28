@@ -1,13 +1,16 @@
-import Banner from './common/components/Banner/Banner';
-import Header from './common/components/Header/Header';
-import Feed from './modules/feed/components/Feed/Feed';
+import { Route, Routes } from "react-router-dom";
+import Header from "./common/components/Header/Header";
+import GlobalFeedPage from "./modules/feed/pages/GlobalFeedPage";
+import ProfilePage from "./modules/profile/ProfilePage";
 
 function App() {
   return (
-    <div className='pb-8'>
+    <div className="pb-8">
       <Header />
-      <Banner />
-      <Feed />
+      <Routes>
+        <Route path="/" element={<GlobalFeedPage />} />
+        <Route path="/:profile" element={<ProfilePage />} />
+      </Routes>
     </div>
   );
 }

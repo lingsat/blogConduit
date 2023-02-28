@@ -4,19 +4,24 @@ import ArticleList from "../ArticleList/ArticleList";
 import ReactPaginate from "react-paginate";
 import { FEED_PAGE_SIZE } from "../../consts";
 import { useState } from "react";
-import { useSearchParams } from 'react-router-dom';
-import { serializeSearchParams } from '../../../../utils/router';
-import TagCloud from '../TagCloud/TagCloud';
+import { useSearchParams } from "react-router-dom";
+import { serializeSearchParams } from "../../../../utils/router";
+import TagCloud from "../TagCloud/TagCloud";
 
 const Feed = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const [page, setPage] = useState(searchParams.get('page') ? Number(searchParams.get('page')) : 0);
+  const [page, setPage] = useState(
+    searchParams.get("page") ? Number(searchParams.get("page")) : 0
+  );
   const handlePageChange = ({ selected }: { selected: number }) => {
     setPage(selected);
-    setSearchParams(serializeSearchParams({page: String(selected)}));
+    setSearchParams(serializeSearchParams({ page: String(selected) }));
   };
 
-  const { data, error, isLoading, isFetching } = useGetGlobalFeedQuery({ page });
+  const { data, error, isLoading, isFetching } = useGetGlobalFeedQuery({
+    page,
+    tag: searchParams.get("tag"),
+  });
   const amount = data?.articlesCount || 0;
 
   if (isLoading || isFetching) {

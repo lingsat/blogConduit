@@ -6,6 +6,7 @@ import { PopularTagsIn } from '../dto/popularTags.in';
 
 interface GlobalFeedParams {
   page: number;
+  tag: string | null;
 }
 
 export const feedApi = createApi({
@@ -15,9 +16,9 @@ export const feedApi = createApi({
   }),
   endpoints: (builder) => ({
     getGlobalFeed: builder.query<GlobalFeedIn, GlobalFeedParams>({
-      query: ({ page }) => ({
+      query: ({ page, tag }) => ({
         url: "/articles",
-        params: { limit: FEED_PAGE_SIZE, offset: page * FEED_PAGE_SIZE },
+        params: { limit: FEED_PAGE_SIZE, offset: page * FEED_PAGE_SIZE, tag },
       }),
     }),
     getPopularTags: builder.query<PopularTagsIn, any>({
