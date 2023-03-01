@@ -1,12 +1,25 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
 import { axiosBaseQuery } from "../../../core/axiosBaseQuery";
 import { FEED_PAGE_SIZE } from "../consts";
-import { GlobalFeedIn } from "../dto/globalFeed.in";
-import { PopularTagsIn } from '../dto/popularTags.in';
+import { ArticleIn } from "../dto/globalFeed.in";
+import { PopularTagsIn } from "../dto/popularTags.in";
+import { transformResponse } from "./utils";
 
-interface GlobalFeedParams {
+interface BaseFeedParams {
   page: number;
+}
+
+interface GlobalFeedParams extends BaseFeedParams {
   tag: string | null;
+}
+
+interface ProfileFeedParams extends BaseFeedParams {
+  author: string;
+}
+
+export interface FeedData {
+  articles: ArticleIn[];
+  articlesCount: number;
 }
 
 export const feedApi = createApi({
@@ -15,11 +28,23 @@ export const feedApi = createApi({
     baseUrl: "https://api.realworld.io/api",
   }),
   endpoints: (builder) => ({
-    getGlobalFeed: builder.query<GlobalFeedIn, GlobalFeedParams>({
+    getGlobalFeed: builder.query<FeedData, GlobalFeedParams>({
       query: ({ page, tag }) => ({
         url: "/articles",
         params: { limit: FEED_PAGE_SIZE, offset: page * FEED_PAGE_SIZE, tag },
       }),
+      transformResponse,
+    }),
+    getProfileFeed: builder.query<FeedData, ProfileFeedParams>({
+      query: ({ page, author }) => ({
+        url: "/articles",
+        params: {
+          limit: FEED_PAGE_SIZE,
+          offset: page * FEED_PAGE_SIZE,
+          author,
+        },
+      }),
+      transformResponse,
     }),
     getPopularTags: builder.query<PopularTagsIn, any>({
       query: () => ({
@@ -29,4 +54,8 @@ export const feedApi = createApi({
   }),
 });
 
-export const { useGetGlobalFeedQuery, useGetPopularTagsQuery } = feedApi;
+export const {
+  useGetGlobalFeedQuery,
+  useGetPopularTagsQuery,
+  useGetProfileFeedQuery,
+} = feedApi;

@@ -1,12 +1,18 @@
 import clsx from 'clsx';
+import { FC } from 'react';
 import { NavLink, useSearchParams } from "react-router-dom";
 
-const FeedToggle = () => {
+interface FeedToggleProps {
+  defaultText?: string;
+  defaultLink?: string;
+}
+
+const FeedToggle: FC<FeedToggleProps> = ({ defaultText = 'Global Feed', defaultLink = '/' }) => {
   const [searchParams] = useSearchParams();
   const tag = searchParams.get("tag");
 
-  const globalFeedClasses = clsx('bg-white border-maingreen py-2 px-4 hover:text-black/60 hover:no-underline',{
-    'text-black/30': tag,
+  const globalFeedClasses = clsx('bg-white border-maingreen py-2 px-4 hover:no-underline',{
+    'text-black/30 hover:text-black/60': tag,
     'border-b-2': !tag,
   })
 
@@ -15,10 +21,10 @@ const FeedToggle = () => {
       <ul>
         <li>
           <NavLink
-            to="/"
+            to={defaultLink}
             className={globalFeedClasses}
           >
-            Global Feed
+            {defaultText}
           </NavLink>
           {tag && <span className='bg-white text-maingreen border-b-2 border-maingreen py-2 px-4'># {tag}</span>}
         </li>

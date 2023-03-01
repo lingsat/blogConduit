@@ -18,6 +18,7 @@ module.exports = {
         tagCloudBg: "#f3f3f3",
         tagItemBg: "#818a91",
         tagItemBgHover: "#687877",
+        followLinkHover: "#ccc",
       },
       boxShadow: {
         mainBanner:
