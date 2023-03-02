@@ -22,7 +22,7 @@ const Header = () => {
             </Link>
             <ul className="flex">
               <li className="ml-4">
-                <NavLink to="/" className={navLinkClasses}>
+                <NavLink to="/" className={navLinkClasses} end>
                   Home
                 </NavLink>
               </li>

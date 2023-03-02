@@ -1,6 +1,7 @@
 import { FC } from "react";
 import { Link } from "react-router-dom";
 import { ArticleIn } from "../../dto/globalFeed.in";
+import ArticleAuthor from '../ArticleAuthor/ArticleAuthor';
 import FavoriteButton from "../FavoriteButton/FavoriteButton";
 import TagList from "../TagList/TagList";
 
@@ -16,24 +17,10 @@ const Article: FC<ArticleProps> = ({ article }) => {
     <article>
       <div className="border-t border-black/10 py-6">
         <div className="mb-4 font-light flex items-center">
-          <Link to={`/${author.username}`}>
-            <img
-              src={author.image}
-              alt={`${author.username} avatar`}
-              className="inline-block h-8 w-8 rounded-full"
-            />
-          </Link>
-          <div className="mr-6 ml-1 leading-4 inline-flex flex-col">
-            <Link to={`/${author.username}`} className="font-medium">
-              {author.username}
-            </Link>
-            <span className="text-dategra text-sm">
-              {date.toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' })}
-            </span>
-          </div>
+          <ArticleAuthor author={author} createdAt={date} />
           <FavoriteButton count={article.favoritesCount} />
         </div>
-        <Link to="/article/qwerty" className="hover:no-underline">
+        <Link to={`/article/${encodeURIComponent(article.slug)}`} className="hover:no-underline">
           <h2 className="mb-1 font-semibold text-2xl text-mainblack">
             {article.title}
           </h2>

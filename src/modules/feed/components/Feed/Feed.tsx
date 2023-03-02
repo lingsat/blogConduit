@@ -22,11 +22,14 @@ const Feed: FC<FeedProps> = ({ isLoading, isFetching, error, data }) => {
   };
 
   if (isLoading || isFetching) {
-    return <p>Feed loading...</p>;
+    return <p className='mt-4'>Feed loading...</p>;
   }
 
   if (error) {
-    return <p>Error while loading feed</p>;
+    return <p className='mt-4'>Error while loading feed</p>;
+  }
+  if (!data?.articles.length) {
+    return <p className='mt-4'>No articles are here... yet.</p>;
   }
 
   return (

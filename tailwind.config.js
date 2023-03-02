@@ -19,6 +19,7 @@ module.exports = {
         tagItemBg: "#818a91",
         tagItemBgHover: "#687877",
         followLinkHover: "#ccc",
+        articleBannerBg: "#333",
       },
       boxShadow: {
         mainBanner:

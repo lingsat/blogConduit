@@ -1,14 +1,34 @@
-import { FC } from 'react';
+import clsx from "clsx";
+import { FC } from "react";
 
-interface FollowButtonProps {
-  followAuthorName: string;
+enum ButtonStyleEnum {
+  DARK = "DARK",
+  LIGHT = "LIGHT",
 }
 
-const FollowButton: FC<FollowButtonProps> = ({ followAuthorName }) => {
+interface FollowButtonProps {
+  username: string;
+  btnStyle?: keyof typeof ButtonStyleEnum;
+}
+
+const FollowButton: FC<FollowButtonProps> = ({
+  username,
+  btnStyle = ButtonStyleEnum.DARK,
+}) => {
+  const btnClasses = clsx(
+    "text-center cursor-pointer select-none border py-1 px-2 text-sm rounded-sm hover:bg-followLinkHover",
+    {
+      "border-darkgrey text-darkgrey  focus:bg-followLinkHover":
+        btnStyle === ButtonStyleEnum.DARK,
+      "border-followLinkHover text-followLinkHover hover:text-white":
+        btnStyle === ButtonStyleEnum.LIGHT,
+    }
+  );
+
   return (
-    <button className="text-center cursor-pointer select-none border border-darkgrey py-1 px-2 text-sm rounded-sm text-darkgrey hover:bg-followLinkHover focus:bg-followLinkHover">
+    <button className={btnClasses}>
       <i className="ion-plus-round" />
-      &nbsp; Follow {followAuthorName}
+      &nbsp; Follow {username}
     </button>
   );
 };
