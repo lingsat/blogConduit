@@ -1,9 +1,9 @@
 import { useParams } from "react-router-dom";
 import Container from "../../../common/components/Container/Container";
 import { useGetSingleArticleQuery } from "../api/repository";
-import ArticleAuthor from '../components/ArticleAuthor/ArticleAuthor';
 import ArticleBunner from "../components/ArticleBunner/ArticleBunner";
 import ArticleMeta from "../components/ArticleMeta/ArticleMeta";
+import CommentsList from '../components/CommentsList/CommentsList';
 import TagList from "../components/TagList/TagList";
 
 const convertNewLines = (body: string) => {
@@ -50,21 +50,7 @@ const ArticlePage = () => {
             articleFavoritesCount={data.article.favoritesCount}
           />
         </div>
-
-        <div className='max-w-3xl mx-auto mt-16'>
-          <div className='border border-commentBorder rounded-sm'>
-            <div className='p-5'>
-              <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Consequatur officiis facere est sapiente itaque accusantium
-                saepe fugiat sequi, molestiae quia.
-              </p>
-            </div>
-            <div className='border-t border-commentBorder bg-authorCommentBg px-5 py-3'>
-              <ArticleAuthor author={data.article.author} publishedAt={new Date(data.article.createdAt)} />
-            </div>
-          </div>
-        </div>
+        <CommentsList />
       </Container>
     </>
   );

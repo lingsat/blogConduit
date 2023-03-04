@@ -1,14 +1,17 @@
-import { FC } from "react";
+import { ComponentProps, FC } from "react";
 import FollowButton from "../../../profile/components/FollowButton/FollowButton";
 import { Author } from "../../api/dto/globalFeed.in";
 import ArticleAuthor, { NameStyleEnum } from "../ArticleAuthor/ArticleAuthor";
 import FavoriteButton from "../FavoriteButton/FavoriteButton";
 
 interface ArticleMetaProps {
-  authorNameStyle?: keyof typeof NameStyleEnum;
-  articleCreatedAt: string;
-  articleFavoritesCount: number;
   author: Author;
+  articleCreatedAt: string;
+  authorNameStyle?: ComponentProps<typeof ArticleAuthor>['nameStyle'];
+  authorDirection?: ComponentProps<typeof ArticleAuthor>['direction'];
+  authorNameSize?: ComponentProps<typeof ArticleAuthor>['nameSize'];
+  articleFavoritesCount?: number;
+  showActionButtons?: boolean;
 }
 
 const ArticleMeta: FC<ArticleMetaProps> = ({
@@ -16,18 +19,25 @@ const ArticleMeta: FC<ArticleMetaProps> = ({
   author,
   articleCreatedAt,
   articleFavoritesCount,
+  showActionButtons = true,
+  authorDirection = 'COL',
+  authorNameSize = 'BASE',
 }) => {
   return (
-    <div className="flex">
+    <div className="flex items-center">
       <ArticleAuthor
         author={author}
         publishedAt={new Date(articleCreatedAt)}
         nameStyle={authorNameStyle}
+        direction={authorDirection}
+        nameSize={authorNameSize}
       />
-      <div className="flex items-center gap-4">
-        <FollowButton username={author.username} btnStyle="LIGHT" />
-        <FavoriteButton count={articleFavoritesCount} extended={true} />
-      </div>
+      {showActionButtons && (
+        <div className="flex items-center gap-4">
+          <FollowButton username={author.username} btnStyle="LIGHT" />
+          <FavoriteButton count={articleFavoritesCount || 0} extended={true} />
+        </div>
+      )}
     </div>
   );
 };

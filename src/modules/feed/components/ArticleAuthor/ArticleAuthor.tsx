@@ -8,20 +8,45 @@ export enum NameStyleEnum {
   GREEN = "GREEN",
 }
 
+enum MetaDirectionEnum {
+  ROW = 'ROW',
+  COL = 'COL',
+}
+
+enum NameSizeEnum {
+  SM = 'SM',
+  BASE = 'BASE',
+}
+
 interface ArticleAuthorProps {
   author: Author;
   publishedAt: Date;
   nameStyle?: keyof typeof NameStyleEnum;
+  direction?: keyof typeof MetaDirectionEnum;
+  nameSize?: keyof typeof NameSizeEnum;
 }
 
 const ArticleAuthor: FC<ArticleAuthorProps> = ({
   author,
   publishedAt,
   nameStyle = NameStyleEnum.GREEN,
+  direction = MetaDirectionEnum.COL,
+  nameSize = NameSizeEnum.BASE,
 }) => {
   const usernameClasses = clsx("font-medium", {
     "text-white hover:text-white": nameStyle === NameStyleEnum.LIGHT,
+    "text-sm": nameSize === NameSizeEnum.SM,
   });
+
+  const imageClasses = clsx('inline-block rounded-full', {
+    'h-8 w-8': nameSize === NameSizeEnum.BASE,
+    'h-5 w-5': nameSize === NameSizeEnum.SM,
+  })
+
+  const metaClasses = clsx('mr-6 ml-1 leading-4 inline-flex', {
+    'flex-col': direction === MetaDirectionEnum.COL,
+    'flex-row items-center gap-2': direction === MetaDirectionEnum.ROW,
+  })
 
   return (
     <div className="flex">
@@ -29,10 +54,10 @@ const ArticleAuthor: FC<ArticleAuthorProps> = ({
         <img
           src={author.image}
           alt={`${author.username} avatar`}
-          className="inline-block h-8 w-8 rounded-full"
+          className={imageClasses}
         />
       </Link>
-      <div className='mr-6 ml-1 leading-4 inline-flex flex-col'>
+      <div className={metaClasses}>
         <Link
           to={`/${encodeURIComponent(author.username)}`}
           className={usernameClasses}
