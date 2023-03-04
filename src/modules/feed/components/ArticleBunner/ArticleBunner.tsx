@@ -1,19 +1,30 @@
+import { FC } from "react";
 import Container from "../../../../common/components/Container/Container";
-import ArticleMeta from '../ArticleMeta/ArticleMeta';
+import { Author } from "../../api/dto/globalFeed.in";
+import ArticleMeta from "../ArticleMeta/ArticleMeta";
 
-const ArticleBunner = () => {
+interface ArticleBunnerProps {
+  title: string;
+  articleCreatedAt: string;
+  articleFavoritesCount: number;
+  author: Author;
+}
+
+const ArticleBunner: FC<ArticleBunnerProps> = ({
+  title,
+  author,
+  articleCreatedAt,
+  articleFavoritesCount,
+}) => {
   return (
     <div className="bg-articleBannerBg py-8 mb-8">
       <Container>
-        <h2 className="text-white text-4xl font-semibold mb-8">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe
-          incidunt accusamus praesentium. Accusantium sed reprehenderit,
-          sapiente placeat corrupti iure molestiae quibusdam quidem doloribus
-          enim ratione, magnam, vero eligendi. Enim, quas expedita at, soluta
-          hic delectus nobis eos excepturi eligendi architecto dolorum, ullam
-          facere voluptates. Nulla fugiat ullam consequatur illo laboriosam?
-        </h2>
-        <ArticleMeta />
+        <h2 className="text-white text-4xl font-semibold mb-8">{title}</h2>
+        <ArticleMeta
+          author={author}
+          articleCreatedAt={articleCreatedAt}
+          articleFavoritesCount={articleFavoritesCount}
+        />
       </Container>
     </div>
   );

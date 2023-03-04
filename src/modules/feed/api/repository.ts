@@ -1,8 +1,9 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
-import { realWorldBaseQuery } from '../../../core/api/realWorldBaseQuery';
+import { realWorldBaseQuery } from "../../../core/api/realWorldBaseQuery";
 import { FEED_PAGE_SIZE } from "../consts";
-import { ArticleIn } from "../dto/globalFeed.in";
-import { PopularTagsIn } from "../dto/popularTags.in";
+import { ArticleIn } from "./dto/globalFeed.in";
+import { PopularTagsIn } from "./dto/popularTags.in";
+import { SingleArticleIn } from "./dto/singleArticle.in";
 import { transformResponse } from "./utils";
 
 interface BaseFeedParams {
@@ -21,6 +22,10 @@ interface ProfileFeedParams extends BaseFeedParams {
 export interface FeedData {
   articles: ArticleIn[];
   articlesCount: number;
+}
+
+interface SingleArticleParams {
+  slug: string;
 }
 
 export const feedApi = createApi({
@@ -51,6 +56,11 @@ export const feedApi = createApi({
         url: "/tags",
       }),
     }),
+    getSingleArticle: builder.query<SingleArticleIn, SingleArticleParams>({
+      query: ({ slug }) => ({
+        url: `/articles/${slug}`,
+      }),
+    }),
   }),
 });
 
@@ -58,4 +68,5 @@ export const {
   useGetGlobalFeedQuery,
   useGetPopularTagsQuery,
   useGetProfileFeedQuery,
+  useGetSingleArticleQuery
 } = feedApi;

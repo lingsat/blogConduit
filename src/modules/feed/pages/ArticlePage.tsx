@@ -1,43 +1,69 @@
+import { useParams } from "react-router-dom";
 import Container from "../../../common/components/Container/Container";
+import { useGetSingleArticleQuery } from "../api/repository";
+import ArticleAuthor from '../components/ArticleAuthor/ArticleAuthor';
 import ArticleBunner from "../components/ArticleBunner/ArticleBunner";
-import ArticleMeta from '../components/ArticleMeta/ArticleMeta';
-import TagList from '../components/TagList/TagList';
+import ArticleMeta from "../components/ArticleMeta/ArticleMeta";
+import TagList from "../components/TagList/TagList";
+
+const convertNewLines = (body: string) => {
+  return body.split("\\n").join("<br />");
+};
 
 const ArticlePage = () => {
+  const { slug } = useParams();
+  const { data, isLoading } = useGetSingleArticleQuery({
+    slug: slug!,
+  });
+
+  if (isLoading) {
+    return null;
+  }
+
+  if (!data) {
+    return <h2 className="text-center">Artile Not Found</h2>;
+  }
+
   return (
     <>
-      <ArticleBunner />
+      <ArticleBunner
+        title={data.article.title}
+        articleCreatedAt={data.article.createdAt}
+        articleFavoritesCount={data.article.favoritesCount}
+        author={data.article.author}
+      />
       <Container>
-        <div className='pb-8 border-b'>
-          <p className='text-xl mb-8'>
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Magni
-            distinctio eaque ipsam aut veritatis suscipit sed, iusto autem officia
-            ducimus, perferendis, aliquid repellat deserunt. Harum in nobis
-            voluptas rem, accusamus ex dolorum tempore soluta explicabo quaerat
-            tempora blanditiis odit aut. Nobis voluptate earum fugit nihil
-            necessitatibus facilis eligendi, similique exercitationem facere iusto
-            tempore voluptatem delectus possimus sed placeat doloribus ipsam nulla
-            sequi eveniet maiores numquam, cumque velit, recusandae pariatur!
-            Nostrum officia, numquam repellat molestias similique soluta
-            necessitatibus. Cum odio recusandae minima et architecto maiores
-            incidunt dolore ipsum quia aspernatur, dolores amet eius ad dolor
-            illo! Voluptates, sapiente asperiores recusandae cum similique
-            repudiandae illum accusamus libero, quae optio harum vitae doloribus
-            quod tenetur ullam tempore numquam voluptatem qui fuga rerum facere
-            omnis perspiciatis quis in? Quod exercitationem nisi itaque labore
-            alias. Quis expedita quo, inventore voluptatem, excepturi beatae eaque
-            animi quidem nobis sequi modi eligendi neque dolores commodi sapiente
-            facilis corporis nemo quasi unde molestias id ratione illo deserunt
-            at! Doloribus impedit in perspiciatis quasi officiis recusandae nobis,
-            deleniti dolores asperiores. Corporis eaque, magnam quos, iusto
-            facilis commodi quaerat amet nam quod, impedit quia culpa voluptates
-            totam praesentium quam modi tempore molestiae illo. Quibusdam
-            molestias laboriosam dignissimos dolore saepe deleniti commodi?
-          </p>
-          <TagList tagList={['one', 'two', 'three']} />
+        <div className="pb-8 border-b">
+          <p
+            className="text-xl mb-8"
+            dangerouslySetInnerHTML={{
+              __html: convertNewLines(data.article.body),
+            }}
+          />
+          <TagList tagList={data.article.tagList} />
         </div>
-        <div className='flex justify-center my-6'>
-          <ArticleMeta authorNameStyle='GREEN' />
+        <div className="flex justify-center my-6">
+          <ArticleMeta
+            authorNameStyle="GREEN"
+            author={data.article.author}
+            articleCreatedAt={data.article.createdAt}
+            articleFavoritesCount={data.article.favoritesCount}
+          />
+        </div>
+
+        <div className='max-w-3xl mx-auto mt-16'>
+          <div className='border border-commentBorder rounded-sm'>
+            <div className='p-5'>
+              <p>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                Consequatur officiis facere est sapiente itaque accusantium
+                saepe fugiat sequi, molestiae quia.
+              </p>
+            </div>
+            <div className='border-t border-commentBorder bg-authorCommentBg px-5 py-3'>
+              <ArticleAuthor author={data.article.author} publishedAt={new Date(data.article.createdAt)} />
+            </div>
+          </div>
         </div>
       </Container>
     </>

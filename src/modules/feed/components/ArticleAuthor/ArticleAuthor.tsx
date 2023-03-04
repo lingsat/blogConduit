@@ -1,7 +1,7 @@
-import clsx from 'clsx';
+import clsx from "clsx";
 import { FC } from "react";
 import { Link } from "react-router-dom";
-import { Author } from "../../dto/globalFeed.in";
+import { Author } from "../../api/dto/globalFeed.in";
 
 export enum NameStyleEnum {
   LIGHT = "LIGHT",
@@ -10,18 +10,18 @@ export enum NameStyleEnum {
 
 interface ArticleAuthorProps {
   author: Author;
-  createdAt: Date;
+  publishedAt: Date;
   nameStyle?: keyof typeof NameStyleEnum;
 }
 
 const ArticleAuthor: FC<ArticleAuthorProps> = ({
   author,
-  createdAt,
+  publishedAt,
   nameStyle = NameStyleEnum.GREEN,
 }) => {
-  const usernameClasses = clsx('font-medium', {
-    'text-white hover:text-white': nameStyle === NameStyleEnum.LIGHT,
-  })
+  const usernameClasses = clsx("font-medium", {
+    "text-white hover:text-white": nameStyle === NameStyleEnum.LIGHT,
+  });
 
   return (
     <div className="flex">
@@ -32,7 +32,7 @@ const ArticleAuthor: FC<ArticleAuthorProps> = ({
           className="inline-block h-8 w-8 rounded-full"
         />
       </Link>
-      <div className="mr-6 ml-1 leading-4 inline-flex flex-col">
+      <div className='mr-6 ml-1 leading-4 inline-flex flex-col'>
         <Link
           to={`/${encodeURIComponent(author.username)}`}
           className={usernameClasses}
@@ -40,7 +40,7 @@ const ArticleAuthor: FC<ArticleAuthorProps> = ({
           {author.username}
         </Link>
         <span className="text-dategray text-sm">
-          {createdAt.toLocaleDateString("en-US", {
+          {publishedAt.toLocaleDateString("en-US", {
             day: "numeric",
             month: "long",
             year: "numeric",

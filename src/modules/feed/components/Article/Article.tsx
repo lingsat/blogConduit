@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { Link } from "react-router-dom";
-import { ArticleIn } from "../../dto/globalFeed.in";
+import { ArticleIn } from "../../api/dto/globalFeed.in";
 import ArticleAuthor from '../ArticleAuthor/ArticleAuthor';
 import FavoriteButton from "../FavoriteButton/FavoriteButton";
 import TagList from "../TagList/TagList";
@@ -17,7 +17,7 @@ const Article: FC<ArticleProps> = ({ article }) => {
     <article>
       <div className="border-t border-black/10 py-6">
         <div className="mb-4 font-light flex items-center">
-          <ArticleAuthor author={author} createdAt={date} />
+          <ArticleAuthor author={author} publishedAt={date} />
           <FavoriteButton count={article.favoritesCount} />
         </div>
         <Link to={`/article/${encodeURIComponent(article.slug)}`} className="hover:no-underline">

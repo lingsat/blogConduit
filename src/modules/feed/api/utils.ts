@@ -1,4 +1,4 @@
-import { GlobalFeedIn } from '../dto/globalFeed.in'
+import { GlobalFeedIn } from './dto/globalFeed.in'
 
 export const transformResponse = (response: GlobalFeedIn) => {
   return {
