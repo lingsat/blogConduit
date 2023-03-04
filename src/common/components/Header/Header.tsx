@@ -27,12 +27,12 @@ const Header = () => {
                 </NavLink>
               </li>
               <li className="ml-4">
-                <NavLink to="/signin" className={navLinkClasses}>
+                <NavLink to="/sign-in" className={navLinkClasses}>
                   Sign in
                 </NavLink>
               </li>
               <li className="ml-4">
-                <NavLink to="/signup" className={navLinkClasses}>
+                <NavLink to="/sign-up" className={navLinkClasses}>
                   Sign up
                 </NavLink>
               </li>

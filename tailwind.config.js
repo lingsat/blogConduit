@@ -22,6 +22,7 @@ module.exports = {
         articleBannerBg: "#333",
         commentBorder: '#e5e5e5',
         authorCommentBg: '#f5f5f5',
+        redError: '#b85c5c',
       },
       boxShadow: {
         mainBanner:
