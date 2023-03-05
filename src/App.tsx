@@ -1,5 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 import Header from "./common/components/Header/Header";
+import SignIn from './modules/auth/pages/SignIn';
 import SignUp from './modules/auth/pages/SignUp';
 import ArticlePage from './modules/feed/pages/ArticlePage';
 import GlobalFeedPage from "./modules/feed/pages/GlobalFeedPage";
@@ -14,6 +15,7 @@ function App() {
         <Route path="/:profile" element={<ProfilePage />} />
         <Route path="/:profile/favorites" element={<ProfilePage />} />
         <Route path="/article/:slug" element={<ArticlePage />} />
+        <Route path="/sign-in" element={<SignIn />} />
         <Route path="/sign-up" element={<SignUp />} />
       </Routes>
     </div>
