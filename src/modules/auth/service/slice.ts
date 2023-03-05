@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { SingUpInDTO } from "./api/dto/sign-up.in";
+import { RootState } from "../../../store/store";
+import { SingUpInDTO } from "../api/dto/sign-up.in";
 
 interface AuthState {
   user: SingUpInDTO["user"] | null;
@@ -13,12 +14,19 @@ export const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    setUser: (state, action: PayloadAction<SingUpInDTO["user"]>) => {
+    setUser: (state, action: PayloadAction<SingUpInDTO["user"] | null>) => {
+      if (action.payload === null) {
+        state.user = null;
+        return;
+      }
+
       state.user = {
         ...action.payload,
       };
     },
   },
 });
+
+export const selectUser = (state: RootState) => state.auth.user;
 
 export const { setUser } = authSlice.actions;

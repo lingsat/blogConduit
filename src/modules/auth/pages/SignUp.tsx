@@ -7,9 +7,7 @@ import { toast } from 'react-toastify';
 import Container from "../../../common/components/Container/Container";
 import Input from "../../../common/components/Input/Input";
 import Button from "../../../common/components/Button/Button";
-import { useLazySignUpQuery } from "../api/repository";
-import { setUser } from '../slice';
-import { useAppDispatch } from '../../../store/store';
+import { useAuth } from '../hooks/useAuth';
 
 interface SignUpProps {}
 
@@ -26,6 +24,7 @@ const validationSchema = yup.object({
 });
 
 const SignUp: FC<SignUpProps> = () => {
+  const { signUp } = useAuth();
   const { register, handleSubmit, formState } = useForm<SignUpFormValues>({
     defaultValues: {
       username: "",
@@ -34,14 +33,11 @@ const SignUp: FC<SignUpProps> = () => {
     },
     resolver: yupResolver(validationSchema),
   });
-  const [triggerSignUpQuery] = useLazySignUpQuery();
   const navigate = useNavigate();
-  const dispatch = useAppDispatch();
 
   const onSubmit = async (values: SignUpFormValues) => {
     try {
-      const { data } = await triggerSignUpQuery(values, false);      
-      dispatch(setUser(data!.user));
+      await signUp(values);
       navigate('/');
     } catch (e) {      
       toast.error('Something went wrong. Please, try again later');

@@ -6,7 +6,7 @@ import storage from "redux-persist/lib/storage";
 import { feedApi } from "../modules/feed/api/repository";
 import { profileApi } from "../modules/profile/api/repository";
 import { authApi } from "../modules/auth/api/repository";
-import { authSlice } from "../modules/auth/slice";
+import { authSlice } from "../modules/auth/service/slice";
 
 const persistConfig = {
   key: "conduit",

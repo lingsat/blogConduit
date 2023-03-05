@@ -1,8 +1,11 @@
 import { NavLink, Link } from "react-router-dom";
 import { clsx } from "clsx";
 import Container from "../Container/Container";
+import { useAuth } from "../../../modules/auth/hooks/useAuth";
 
 const Header = () => {
+  const { isLoggedIn, logOut } = useAuth();
+
   const navLinkClasses = ({ isActive }: { isActive: boolean }) =>
     clsx("py-2 hover:text-black/60 hover:no-underline", {
       "text-black/80": isActive,
@@ -26,16 +29,26 @@ const Header = () => {
                   Home
                 </NavLink>
               </li>
-              <li className="ml-4">
-                <NavLink to="/sign-in" className={navLinkClasses}>
-                  Sign in
-                </NavLink>
-              </li>
-              <li className="ml-4">
-                <NavLink to="/sign-up" className={navLinkClasses}>
-                  Sign up
-                </NavLink>
-              </li>
+              {isLoggedIn ? (
+                <li className="ml-4">
+                  <NavLink to="/" className='py-2 text-black/30 hover:text-black/60 hover:no-underline' onClick={logOut}>
+                    Log Out
+                  </NavLink>
+                </li>
+              ) : (
+                <>
+                  <li className="ml-4">
+                    <NavLink to="/sign-in" className={navLinkClasses}>
+                      Sign in
+                    </NavLink>
+                  </li>
+                  <li className="ml-4">
+                    <NavLink to="/sign-up" className={navLinkClasses}>
+                      Sign up
+                    </NavLink>
+                  </li>
+                </>
+              )}
             </ul>
           </div>
         </Container>

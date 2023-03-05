@@ -7,9 +7,7 @@ import { toast } from 'react-toastify';
 import Container from "../../../common/components/Container/Container";
 import Input from "../../../common/components/Input/Input";
 import Button from "../../../common/components/Button/Button";
-import { useLazySignInQuery } from "../api/repository";
-import { setUser } from '../slice';
-import { useAppDispatch } from '../../../store/store';
+import { useAuth } from '../hooks/useAuth';
 
 interface SignInProps {}
 
@@ -23,22 +21,20 @@ const validationSchema = yup.object({
   password: yup.string().required().min(6),
 });
 
-const SignIn: FC<SignInProps> = () => {
+const SignIn: FC<SignInProps> = () => {  
+  const { signIn } = useAuth();
   const { register, handleSubmit, formState } = useForm<SignInFormValues>({
     defaultValues: {
       email: "",
       password: "",
     },
     resolver: yupResolver(validationSchema),
-  });
-  const [triggerSignInQuery] = useLazySignInQuery();
-  const navigate = useNavigate();
-  const dispatch = useAppDispatch();
+  });  
+  const navigate = useNavigate();  
 
   const onSubmit = async (values: SignInFormValues) => {
     try {
-      const { data } = await triggerSignInQuery(values, false);      
-      dispatch(setUser(data!.user));
+      await signIn(values);
       navigate('/');
     } catch (e) {      
       toast.error('Something went wrong. Please, try again later');
