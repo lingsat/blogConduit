@@ -1,8 +1,9 @@
 import clsx from "clsx";
 import { FC } from "react";
 import { NavLink, useSearchParams } from "react-router-dom";
+import { useAuth } from '../../../auth/hooks/useAuth';
 
-interface FeedToggleItem {
+export interface FeedToggleItem {
   text: string;
   link: string;
 }
@@ -18,6 +19,8 @@ const FeedToggle: FC<FeedToggleProps> = ({
   defaultLink = "/",
   items = [],
 }) => {
+  const { isLoggedIn } = useAuth();
+
   const [searchParams] = useSearchParams();
   const tag = searchParams.get("tag");
 

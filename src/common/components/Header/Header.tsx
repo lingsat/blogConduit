@@ -4,7 +4,7 @@ import Container from "../Container/Container";
 import { useAuth } from "../../../modules/auth/hooks/useAuth";
 
 const Header = () => {
-  const { isLoggedIn, logOut } = useAuth();
+  const { isLoggedIn, logOut, user } = useAuth();
 
   const navLinkClasses = ({ isActive }: { isActive: boolean }) =>
     clsx("py-2 hover:text-black/60 hover:no-underline", {
@@ -30,11 +30,35 @@ const Header = () => {
                 </NavLink>
               </li>
               {isLoggedIn ? (
-                <li className="ml-4">
-                  <NavLink to="/" className='py-2 text-black/30 hover:text-black/60 hover:no-underline' onClick={logOut}>
-                    Log Out
-                  </NavLink>
-                </li>
+                <>
+                  <li className="ml-4">
+                    <NavLink to="/editor" className={navLinkClasses}>
+                      <i className='ion-compose mr-1'></i>
+                      New Article
+                    </NavLink>
+                  </li>
+                  <li className="ml-4">
+                    <NavLink to="/settings" className={navLinkClasses}>
+                      <i className='ion-gear-a mr-1'></i>
+                      Settings
+                    </NavLink>
+                  </li>
+                  <li className="ml-4">
+                    <NavLink to={`/@${user!.username}`} className={navLinkClasses}>
+                      <img src={user!.image} alt={`${user!.username} avatar`} className='w-6 h-6 rounded-full inline-block mr-1' />
+                      {user!.username}
+                    </NavLink>
+                  </li>
+                  <li className="ml-4">
+                    <NavLink
+                      to="/"
+                      className="py-2 text-black/30 hover:text-black/60 hover:no-underline"
+                      onClick={logOut}
+                    >
+                      Log Out
+                    </NavLink>
+                  </li>
+                </>
               ) : (
                 <>
                   <li className="ml-4">
