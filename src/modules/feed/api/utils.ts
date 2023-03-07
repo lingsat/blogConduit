@@ -1,6 +1,6 @@
 import { Drafted } from "immer/dist/internal";
 import { RootState } from "../../../store/store";
-import { GlobalFeedIn } from "./dto/globalFeed.in";
+import { ArticleIn, GlobalFeedIn } from "./dto/globalFeed.in";
 import { FeedData, GlobalFeedParams } from "./repository";
 
 export const transformResponse = (response: GlobalFeedIn) => {
@@ -8,6 +8,41 @@ export const transformResponse = (response: GlobalFeedIn) => {
     articles: response.articles || [],
     articlesCount: response.articlesCount || 0,
   };
+};
+
+const updateFeed = <Q>(
+  feedKey: string,
+  data: { article: ArticleIn },
+  feedKeys: string[],
+  state: RootState,
+  dispatch: any,
+  feedApi: any
+) => {
+  for (
+    let i = 0, key = feedKeys[i], queryItem = state.feedApi.queries[key];
+    i < feedKeys.length;
+    i++, key = feedKeys[i], queryItem = state.feedApi.queries[key]
+  ) {
+    if (!key.startsWith(feedKey)) {
+      continue;
+    }
+
+    dispatch(
+      feedApi.util.updateQueryData(
+        feedKey,
+        queryItem!.originalArgs as Q,
+        (draft: Drafted<FeedData>) => {
+          const updateId = draft.articles.findIndex(
+            (article) => article.slug === data.article.slug
+          );
+
+          if (updateId >= 0) {
+            draft.articles[updateId] = data.article;
+          }
+        }
+      )
+    );
+  }
 };
 
 export const replaceCachedArticle = async (
@@ -21,30 +56,7 @@ export const replaceCachedArticle = async (
   try {
     const { data } = await queryFulfilled;
     const feedKeys = Object.keys(state.feedApi.queries);
-    for (
-      let i = 0, key = feedKeys[i], queryItem = state.feedApi.queries[key];
-      i < feedKeys.length;
-      i++, key = feedKeys[i], queryItem = state.feedApi.queries[key]
-    ) {
-      if (!key.startsWith("getGlobalFeed")) {
-        continue;
-      }
-
-      dispatch(
-        feedApi.util.updateQueryData(
-          "getGlobalFeed",
-          queryItem!.originalArgs as GlobalFeedParams,
-          (draft: Drafted<FeedData>) => {
-            const updateId = draft.articles.findIndex(
-              (article) => article.slug === data.article.slug
-            );
-
-            if (updateId >= 0) {
-              draft.articles[updateId] = data.article;
-            }
-          }
-        )
-      );
-    }
+    updateFeed("getGlobalFeed", data, feedKeys, state, dispatch, feedApi);
+    updateFeed("getProfileFeed", data, feedKeys, state, dispatch, feedApi);
   } catch (e) {}
 };

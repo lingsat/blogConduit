@@ -44,7 +44,7 @@ const Header = () => {
                     </NavLink>
                   </li>
                   <li className="ml-4">
-                    <NavLink to={`/@${user!.username}`} className={navLinkClasses}>
+                    <NavLink to={`/${user!.username}`} className={navLinkClasses}>
                       <img src={user!.image} alt={`${user!.username} avatar`} className='w-6 h-6 rounded-full inline-block mr-1' />
                       {user!.username}
                     </NavLink>

@@ -33,4 +33,8 @@ export const routes = {
     path: "/sign-up",
     Element: SignUp,
   },
+  settings: {
+    path: "/settings",
+    Element: GlobalFeedPage,
+  },
 };

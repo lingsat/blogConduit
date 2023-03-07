@@ -38,23 +38,18 @@ interface FavoriteArticleParams {
 export const feedApi = createApi({
   reducerPath: "feedApi",
   baseQuery: realWorldBaseQuery,
-  tagTypes: ["Article"],
+  tagTypes: ["Article", 'Articles'],
   endpoints: (builder) => ({
     getGlobalFeed: builder.query<FeedData, GlobalFeedParams>({
+      keepUnusedDataFor: 1,
       query: ({ page, tag, isPersonalFeed }) => ({
         url: isPersonalFeed ? "/articles/feed" : "/articles",
         params: { limit: FEED_PAGE_SIZE, offset: page * FEED_PAGE_SIZE, tag },
       }),
       transformResponse,
-      providesTags: (result) =>
-        result
-          ? result.articles.map((article) => ({
-              type: "Article",
-              slug: article.slug,
-            }))
-          : ["Article"],
     }),
     getProfileFeed: builder.query<FeedData, ProfileFeedParams>({
+      keepUnusedDataFor: 1,
       query: ({ page, author, isFavorite = false }) => ({
         url: "/articles",
         params: {
