@@ -10,15 +10,14 @@ interface ArticleProps {
 }
 
 const Article: FC<ArticleProps> = ({ article }) => {
-  const { author } = article;
   const date = new Date(article.createdAt);
 
   return (
     <article>
       <div className="border-t border-black/10 py-6">
         <div className="mb-4 font-light flex items-center">
-          <ArticleAuthor author={author} publishedAt={date} />
-          <FavoriteButton count={article.favoritesCount} />
+          <ArticleAuthor author={article.author} publishedAt={date} />
+          <FavoriteButton count={article.favoritesCount} slug={article.slug} isFavorited={article.favorited} />
         </div>
         <Link to={`/article/${encodeURIComponent(article.slug)}`} className="hover:no-underline">
           <h2 className="mb-1 font-semibold text-2xl text-mainblack">

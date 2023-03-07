@@ -7,6 +7,8 @@ import FavoriteButton from "../FavoriteButton/FavoriteButton";
 interface ArticleMetaProps {
   author: Author;
   articleCreatedAt: string;
+  slug: string;
+  isFavorited: boolean;
   authorNameStyle?: ComponentProps<typeof ArticleAuthor>['nameStyle'];
   authorDirection?: ComponentProps<typeof ArticleAuthor>['direction'];
   authorNameSize?: ComponentProps<typeof ArticleAuthor>['nameSize'];
@@ -18,6 +20,8 @@ const ArticleMeta: FC<ArticleMetaProps> = ({
   authorNameStyle = NameStyleEnum.LIGHT,
   author,
   articleCreatedAt,
+  slug,
+  isFavorited,
   articleFavoritesCount,
   showActionButtons = true,
   authorDirection = 'COL',
@@ -35,7 +39,7 @@ const ArticleMeta: FC<ArticleMetaProps> = ({
       {showActionButtons && (
         <div className="flex items-center gap-4">
           <FollowButton username={author.username} btnStyle="LIGHT" />
-          <FavoriteButton count={articleFavoritesCount || 0} extended={true} />
+          <FavoriteButton count={articleFavoritesCount || 0} extended={true} slug={slug} isFavorited={isFavorited} />
         </div>
       )}
     </div>

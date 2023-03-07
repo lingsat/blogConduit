@@ -31,6 +31,8 @@ const ArticlePage = () => {
         articleCreatedAt={data.article.createdAt}
         articleFavoritesCount={data.article.favoritesCount}
         author={data.article.author}
+        slug={slug!}
+        isFavorited={data.article.favorited}
       />
       <Container>
         <div className="pb-8 border-b">
@@ -48,6 +50,8 @@ const ArticlePage = () => {
             author={data.article.author}
             articleCreatedAt={data.article.createdAt}
             articleFavoritesCount={data.article.favoritesCount}
+            slug={slug!}
+            isFavorited={data.article.favorited}
           />
         </div>
         <CommentsList />

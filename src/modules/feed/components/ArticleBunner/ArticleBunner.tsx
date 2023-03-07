@@ -8,6 +8,8 @@ interface ArticleBunnerProps {
   articleCreatedAt: string;
   articleFavoritesCount: number;
   author: Author;
+  slug: string;
+  isFavorited: boolean;
 }
 
 const ArticleBunner: FC<ArticleBunnerProps> = ({
@@ -15,6 +17,8 @@ const ArticleBunner: FC<ArticleBunnerProps> = ({
   author,
   articleCreatedAt,
   articleFavoritesCount,
+  slug,
+  isFavorited
 }) => {
   return (
     <div className="bg-articleBannerBg py-8 mb-8">
@@ -24,6 +28,8 @@ const ArticleBunner: FC<ArticleBunnerProps> = ({
           author={author}
           articleCreatedAt={articleCreatedAt}
           articleFavoritesCount={articleFavoritesCount}
+          slug={slug}
+          isFavorited={isFavorited}
         />
       </Container>
     </div>
