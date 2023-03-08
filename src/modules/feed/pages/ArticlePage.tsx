@@ -1,3 +1,4 @@
+import MDEditor from '@uiw/react-md-editor';
 import { useParams } from "react-router-dom";
 import Container from "../../../common/components/Container/Container";
 import { useGetSingleArticleQuery } from "../api/repository";
@@ -35,13 +36,8 @@ const ArticlePage = () => {
         isFavorited={data.article.favorited}
       />
       <Container>
-        <div className="pb-8 border-b">
-          <p
-            className="text-xl mb-8"
-            dangerouslySetInnerHTML={{
-              __html: convertNewLines(data.article.body),
-            }}
-          />
+        <div className="pb-8 border-b" data-color-mode="light">
+          <MDEditor.Markdown source={convertNewLines(data.article.body)} className="text-xl mb-8" />
           <TagList tagList={data.article.tagList} />
         </div>
         <div className="flex justify-center my-6">

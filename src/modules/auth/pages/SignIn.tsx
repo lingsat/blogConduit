@@ -8,6 +8,7 @@ import Container from "../../../common/components/Container/Container";
 import Input from "../../../common/components/Input/Input";
 import Button from "../../../common/components/Button/Button";
 import { useAuth } from '../hooks/useAuth';
+import ErrorsList from '../../../common/components/ErrorsList/ErrorsList';
 
 interface SignInProps {}
 
@@ -52,30 +53,24 @@ const SignIn: FC<SignInProps> = () => {
         onSubmit={handleSubmit(onSubmit)}
         noValidate
       >
-        <ul className="list-disc pl-10 mb-4">
-          {(
-            Object.keys(formState.errors) as (keyof typeof formState.errors)[]
-          ).map((field) => (
-            <li key={`error-${field}`} className="text-redError font-bold">
-              {formState.errors[field]!.message}
-            </li>
-          ))}
-        </ul>
-        <Input placeholder="Email" type="email" {...register("email")} />
-        <Input
-          placeholder="Password"
-          type="password"
-          {...register("password")}
-        />
-        <div className="flex justify-end">
-          <Button
-            btnStyle="GREEN"
-            size="LG"
-            type="submit"
-            disabled={formState.isSubmitting}
-          >
-            Sign In
-          </Button>
+        <ErrorsList errors={formState.errors} />
+        <div className='flex flex-col gap-4'>
+          <Input placeholder="Email" type="email" {...register("email")} />
+          <Input
+            placeholder="Password"
+            type="password"
+            {...register("password")}
+          />
+          <div className="flex justify-end">
+            <Button
+              btnStyle="GREEN"
+              size="LG"
+              type="submit"
+              disabled={formState.isSubmitting}
+            >
+              Sign In
+            </Button>
+          </div>
         </div>
       </form>
     </Container>

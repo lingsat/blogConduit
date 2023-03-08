@@ -1,6 +1,7 @@
 import SignIn from "../modules/auth/pages/SignIn";
 import SignUp from "../modules/auth/pages/SignUp";
 import ArticlePage from "../modules/feed/pages/ArticlePage";
+import EditorPage from '../modules/feed/pages/EditorPage';
 import GlobalFeedPage from "../modules/feed/pages/GlobalFeedPage";
 import ProfilePage from "../modules/profile/pages/ProfilePage/ProfilePage";
 
@@ -36,5 +37,17 @@ export const routes = {
   settings: {
     path: "/settings",
     Element: GlobalFeedPage,
+  },
+  editor: {
+    path: "/editor",
+    Element: EditorPage,
+  },
+  createArticle: {
+    path: "/editor",
+    Element: EditorPage,
+  },
+  editArticle: {
+    path: "/editor/:slug",
+    Element: EditorPage,
   },
 };

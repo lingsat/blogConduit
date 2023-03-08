@@ -5,6 +5,7 @@ export enum ButtonStyleEnum {
   DARK = "DARK",
   LIGHT = "LIGHT",
   GREEN = "GREEN",
+  RED = "RED"
 }
 
 enum ButtonSizeEnum {
@@ -33,14 +34,16 @@ const Button: FC<PropsWithChildren<ButtonProps>> = ({
   ...buttonProps
 }) => {
   const btnClasses = clsx(
-    "text-center cursor-pointer select-none border hover:bg-followLinkHover disabled:opacity-70",
+    "text-center align-middle cursor-pointer select-none border disabled:opacity-70",
     {
-      "border-darkgrey text-darkgrey  focus:bg-followLinkHover":
+      "border-darkgrey text-darkgrey hover:bg-followLinkHover focus:bg-followLinkHover":
         btnStyle === ButtonStyleEnum.DARK,
-      "border-followLinkHover text-followLinkHover hover:text-white":
+      "border-followLinkHover text-followLinkHover hover:bg-followLinkHover hover:text-white":
         btnStyle === ButtonStyleEnum.LIGHT,
       "border-maingreen":
         btnStyle === ButtonStyleEnum.GREEN,
+      "border-redError text-redError hover:bg-redError hover:text-white focus:bg-redError":
+        btnStyle === ButtonStyleEnum.RED,
       "bg-maingreen text-white hover:bg-darkgreen hover:border-darkgreen hover:text-white":
         btnStyle === ButtonStyleEnum.GREEN && variant === ButtonVariantEnum.BASE,
       "bg-white text-maingreen hover:bg-maingreen hover:text-white disabled:bg-darkgreen disabled:text-white":

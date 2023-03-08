@@ -1,4 +1,7 @@
 import { ComponentProps, FC } from "react";
+import { useNavigate } from 'react-router-dom';
+import Button from '../../../../common/components/Button/Button';
+import { useAuth } from '../../../auth/hooks/useAuth';
 import FollowButton from "../../../profile/components/FollowButton/FollowButton";
 import { Author } from "../../api/dto/globalFeed.in";
 import ArticleAuthor, { NameStyleEnum } from "../ArticleAuthor/ArticleAuthor";
@@ -27,6 +30,13 @@ const ArticleMeta: FC<ArticleMetaProps> = ({
   authorDirection = 'COL',
   authorNameSize = 'BASE',
 }) => {
+  const auth = useAuth();
+  const navigate = useNavigate();
+
+  const navigateToEdit = () => {
+    navigate(`/editor/${slug}`);
+  }
+
   return (
     <div className="flex items-center">
       <ArticleAuthor
@@ -38,8 +48,23 @@ const ArticleMeta: FC<ArticleMetaProps> = ({
       />
       {showActionButtons && (
         <div className="flex items-center gap-4">
-          <FollowButton username={author.username} btnStyle="LIGHT" isFollowed={author.following}/>
-          <FavoriteButton count={articleFavoritesCount || 0} extended={true} slug={slug} isFavorited={isFavorited} />
+          {auth.user?.username === author.username ? (
+            <>
+              <Button onClick={navigateToEdit}>
+                <i className='ion-edit mr-1'></i>
+                Edit Article
+              </Button>
+              <Button btnStyle='RED'>
+                <i className='ion-trash-a mr-1'></i>
+                Delete Article
+              </Button>
+            </>
+          ) : (
+            <>
+              <FollowButton username={author.username} btnStyle="LIGHT" isFollowed={author.following}/>
+              <FavoriteButton count={articleFavoritesCount || 0} extended={true} slug={slug} isFavorited={isFavorited} />
+            </>
+          )}
         </div>
       )}
     </div>
