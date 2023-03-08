@@ -38,7 +38,7 @@ const ArticleMeta: FC<ArticleMetaProps> = ({
       />
       {showActionButtons && (
         <div className="flex items-center gap-4">
-          <FollowButton username={author.username} btnStyle="LIGHT" />
+          <FollowButton username={author.username} btnStyle="LIGHT" isFollowed={author.following}/>
           <FavoriteButton count={articleFavoritesCount || 0} extended={true} slug={slug} isFavorited={isFavorited} />
         </div>
       )}
