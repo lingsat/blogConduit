@@ -5,7 +5,7 @@ export enum ButtonStyleEnum {
   DARK = "DARK",
   LIGHT = "LIGHT",
   GREEN = "GREEN",
-  RED = "RED"
+  RED = "RED",
 }
 
 enum ButtonSizeEnum {
@@ -23,7 +23,7 @@ interface ButtonProps {
   variant?: keyof typeof ButtonVariantEnum;
   type?: ComponentProps<"button">["type"];
   disabled?: ComponentProps<"button">["disabled"];
-  onClick?: ComponentProps<"button">['onClick'];
+  onClick?: ComponentProps<"button">["onClick"];
 }
 
 const Button: FC<PropsWithChildren<ButtonProps>> = ({
@@ -40,14 +40,15 @@ const Button: FC<PropsWithChildren<ButtonProps>> = ({
         btnStyle === ButtonStyleEnum.DARK,
       "border-followLinkHover text-followLinkHover hover:bg-followLinkHover hover:text-white":
         btnStyle === ButtonStyleEnum.LIGHT,
-      "border-maingreen":
-        btnStyle === ButtonStyleEnum.GREEN,
-      "border-redError text-redError hover:bg-redError hover:text-white focus:bg-redError":
+      "border-maingreen": btnStyle === ButtonStyleEnum.GREEN,
+      "border-redError text-redError hover:bg-redError hover:text-white focus:bg-redError disabled:bg-redError disabled:text-white disabled:cursor-not-allowed":
         btnStyle === ButtonStyleEnum.RED,
       "bg-maingreen text-white hover:bg-darkgreen hover:border-darkgreen hover:text-white":
-        btnStyle === ButtonStyleEnum.GREEN && variant === ButtonVariantEnum.BASE,
+        btnStyle === ButtonStyleEnum.GREEN &&
+        variant === ButtonVariantEnum.BASE,
       "bg-white text-maingreen hover:bg-maingreen hover:text-white disabled:bg-darkgreen disabled:text-white":
-        btnStyle === ButtonStyleEnum.GREEN && variant === ButtonVariantEnum.OUTLINE,
+        btnStyle === ButtonStyleEnum.GREEN &&
+        variant === ButtonVariantEnum.OUTLINE,
       "py-1 px-2 text-sm rounded-sm": size === ButtonSizeEnum.BASE,
       "py-3 px-6 text-xl rounded": size === ButtonSizeEnum.LG,
     }

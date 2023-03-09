@@ -2,10 +2,10 @@ import { createApi } from "@reduxjs/toolkit/query/react";
 import { realWorldBaseQuery } from "../../../core/api/realWorldBaseQuery";
 import { FEED_PAGE_SIZE } from "../consts";
 import { ArticleCommentsIn } from "./dto/articleComments.in";
-import { CreateArticleInDTO } from './dto/createArticle.in';
-import { CreateArticleOutDTO } from './dto/createArticle.out';
-import { EditArticleInDTO } from './dto/editArticle.in';
-import { EditArticleOutDTO } from './dto/editArticle.out';
+import { CreateArticleInDTO } from "./dto/createArticle.in";
+import { CreateArticleOutDTO } from "./dto/createArticle.out";
+import { EditArticleInDTO } from "./dto/editArticle.in";
+import { EditArticleOutDTO } from "./dto/editArticle.out";
 import { FavoriteArticleInDTO } from "./dto/favoriteArticle.in";
 import { ArticleIn } from "./dto/globalFeed.in";
 import { PopularTagsIn } from "./dto/popularTags.in";
@@ -45,6 +45,11 @@ interface CreateArticleParams {
   body: string;
   tags: string;
 }
+
+interface DeleteArticleParams {
+  slug: string;
+}
+
 interface EditArticleParams extends CreateArticleParams {
   slug: string;
 }
@@ -65,6 +70,7 @@ export const feedApi = createApi({
       }),
       transformResponse,
     }),
+
     getProfileFeed: builder.query<FeedData, ProfileFeedParams>({
       keepUnusedDataFor: 1,
       query: ({ page, author, isFavorite = false }) => ({
@@ -78,17 +84,20 @@ export const feedApi = createApi({
       }),
       transformResponse,
     }),
+
     getPopularTags: builder.query<PopularTagsIn, any>({
       query: () => ({
         url: "/tags",
       }),
     }),
+
     getSingleArticle: builder.query<SingleArticleIn, SingleArticleParams>({
       keepUnusedDataFor: 1,
       query: ({ slug }) => ({
         url: `/articles/${slug}`,
       }),
     }),
+
     getCommentsForArticle: builder.query<
       ArticleCommentsIn,
       SingleArticleParams
@@ -112,6 +121,7 @@ export const feedApi = createApi({
         await replaceCachedArticle(getState, queryFulfilled, dispatch, feedApi);
       },
     }),
+
     unfavoriteArticle: builder.mutation<
       FavoriteArticleInDTO,
       FavoriteArticleParams
@@ -124,6 +134,7 @@ export const feedApi = createApi({
         await replaceCachedArticle(getState, queryFulfilled, dispatch, feedApi);
       },
     }),
+
     createArticle: builder.mutation<CreateArticleInDTO, CreateArticleParams>({
       query: ({ title, description, body, tags }) => {
         const data: CreateArticleOutDTO = {
@@ -131,12 +142,13 @@ export const feedApi = createApi({
             title,
             description,
             body,
-            tagList: tags.split(',').map((tag: string) => tag.trim()),
-          }
-        }
+            tagList: tags.split(",").map((tag: string) => tag.trim()),
+          },
+        };
         return { url: `/articles`, method: "post", data };
       },
     }),
+
     editArticle: builder.mutation<EditArticleInDTO, EditArticleParams>({
       query: ({ title, description, body, tags, slug }) => {
         const data: EditArticleOutDTO = {
@@ -144,14 +156,21 @@ export const feedApi = createApi({
             title,
             description,
             body,
-            tagList: tags.split(',').map((tag: string) => tag.trim()),
-          }
-        }
+            tagList: tags.split(",").map((tag: string) => tag.trim()),
+          },
+        };
         return { url: `/articles/${slug}`, method: "put", data };
       },
       onQueryStarted: async ({}, { dispatch, queryFulfilled, getState }) => {
         await replaceCachedArticle(getState, queryFulfilled, dispatch, feedApi);
       },
+    }),
+
+    deleteArticle: builder.mutation<void, DeleteArticleParams>({
+      query: ({ slug }) => ({
+        url: `/articles/${slug}`,
+        method: "delete",
+      }),
     }),
   }),
 });
@@ -165,5 +184,6 @@ export const {
   useFavoriteArticleMutation,
   useUnfavoriteArticleMutation,
   useCreateArticleMutation,
-  useEditArticleMutation
+  useEditArticleMutation,
+  useDeleteArticleMutation,
 } = feedApi;
