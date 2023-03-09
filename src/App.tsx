@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { Route, Routes, useMatch, useNavigate } from "react-router-dom";
 import Header from "./common/components/Header/Header";
 import { routes } from "./core/routes";
+import PrivateRoute from "./modules/auth/components/PrivateRoute";
 import { useAuth } from "./modules/auth/hooks/useAuth";
 
 function App() {
@@ -19,13 +20,29 @@ function App() {
     <div className="pb-8">
       <Header />
       <Routes>
-        {Object.values(routes).map((route, index) => (
-          <Route
-            key={`route-${index}`}
-            path={route.path}
-            element={<route.Element />}
-          />
-        ))}
+        {Object.values(routes).map((route) => {
+          if (route.private) {
+            return (
+              <Route
+                key={`route-${route.path}`}
+                path={route.path}
+                element={
+                  <PrivateRoute>
+                    <route.Element />
+                  </PrivateRoute>
+                }
+              />
+            );
+          } else {
+            return (
+              <Route
+                key={`route-${route.path}`}
+                path={route.path}
+                element={<route.Element />}
+              />
+            );
+          }
+        })}
       </Routes>
     </div>
   );

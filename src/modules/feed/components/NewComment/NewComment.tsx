@@ -34,7 +34,7 @@ const NewComment: FC<NewCommentProps> = ({ slug }) => {
 
   if (!auth.isLoggedIn) {
     return (
-      <p>
+      <p className='text-center'>
         <Link to="/sign-in">Sign in</Link> or <Link to="/sign-up">sign up</Link>{" "}
         to add comments on this article.
       </p>
