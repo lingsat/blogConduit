@@ -1,33 +1,28 @@
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useGetCommentsForArticleQuery } from "../../api/repository";
 import CommentItem from "../CommentItem/CommentItem";
+import NewComment from '../NewComment/NewComment';
 
 const CommentsList = () => {
   const { slug } = useParams();
   const { data, isLoading } = useGetCommentsForArticleQuery({ slug: slug! });
-
+  
   if (isLoading) {
     return <p>Loading comments...</p>;
   }
 
-  if (!data?.comments) {
+  if (!data?.comments.length) {
     return (
       <div>
-        <p>
-          <Link to="/sign-in">Sign in</Link> or{" "}
-          <Link to="/sign-up">sign up</Link> to add comments on this article.
-        </p>
-        <p>No comments found</p>
+        <NewComment slug={slug!} />
+        <p className='text-center'>No comments found</p>
       </div>
     );
   }
 
   return (
     <div className="max-w-3xl mx-auto mt-16 flex flex-col gap-3">
-      <p>
-        <Link to="/sign-in">Sign in</Link> or <Link to="/sign-up">sign up</Link>{" "}
-        to add comments on this article.
-      </p>
+      <NewComment slug={slug!} />
       {data.comments.map((comment) => (
         <CommentItem
           key={`comment-${comment.id}`}
@@ -36,6 +31,7 @@ const CommentsList = () => {
           publishedAt={comment.createdAt}
           slug={slug!}
           isFavorited={false}
+          commentId={comment.id}
         />
       ))}
     </div>

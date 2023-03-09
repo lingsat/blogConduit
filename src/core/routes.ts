@@ -3,7 +3,8 @@ import SignUp from "../modules/auth/pages/SignUp";
 import ArticlePage from "../modules/feed/pages/ArticlePage";
 import EditorPage from '../modules/feed/pages/EditorPage';
 import GlobalFeedPage from "../modules/feed/pages/GlobalFeedPage";
-import ProfilePage from "../modules/profile/pages/ProfilePage/ProfilePage";
+import ProfilePage from "../modules/profile/pages/ProfilePage";
+import SettingsPage from '../modules/profile/pages/SettingsPage';
 
 export const routes = {
   globalFeed: {
@@ -36,7 +37,7 @@ export const routes = {
   },
   settings: {
     path: "/settings",
-    Element: GlobalFeedPage,
+    Element: SettingsPage,
   },
   editor: {
     path: "/editor",

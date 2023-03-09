@@ -1,7 +1,7 @@
-import { Drafted } from 'immer/dist/internal';
-import { RootState } from '../../../store/store';
-import { replacesCachedProfileInArticle } from '../../feed/api/utils';
-import { GetProfileIn, Profile } from './dto/getProfile.in';
+import { Drafted } from "immer/dist/internal";
+import { RootState } from "../../../store/store";
+import { replacesCachedProfileInArticle } from "../../feed/api/utils";
+import { GetProfileIn, Profile } from "./dto/getProfile.in";
 
 const updateProfile = <Q>(
   feedKey: string,
@@ -20,8 +20,7 @@ const updateProfile = <Q>(
       continue;
     }
 
-    const profileToUpdate = state.profileApi.queries[key]
-      ?.data as GetProfileIn;
+    const profileToUpdate = state.profileApi.queries[key]?.data as GetProfileIn;
 
     if (profileToUpdate.profile.username !== data.profile.username) {
       continue;
@@ -51,9 +50,7 @@ export const replaceCachedProfile = async (
     const { data } = await queryFulfilled;
     const feedKeys = Object.keys(state.profileApi.queries);
 
-    updateProfile('getProfile', data, feedKeys, state, dispatch, profileApi);
+    updateProfile("getProfile", data, feedKeys, state, dispatch, profileApi);
     replacesCachedProfileInArticle(getState, queryFulfilled, dispatch);
   } catch (e) {}
 };
-
-

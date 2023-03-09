@@ -35,9 +35,9 @@ const FavoriteButton: FC<FavoriteButtonProps> = ({
     }
 
     if (isFavorited) {
-      await triggerUnfavoriteMutation({ slug });
+      await triggerUnfavoriteMutation({ slug }).unwrap;
     } else {
-      await triggerFavoriteMutation({ slug });
+      await triggerFavoriteMutation({ slug }).unwrap;
     }
   };
 

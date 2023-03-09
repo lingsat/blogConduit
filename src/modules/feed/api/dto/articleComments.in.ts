@@ -4,7 +4,7 @@ export interface ArticleCommentsIn {
   comments: Comment[];
 }
 
-interface Comment {
+export interface Comment {
   id: number;
   createdAt: string;
   updatedAt: string;

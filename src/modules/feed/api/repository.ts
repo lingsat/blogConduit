@@ -8,9 +8,16 @@ import { EditArticleInDTO } from "./dto/editArticle.in";
 import { EditArticleOutDTO } from "./dto/editArticle.out";
 import { FavoriteArticleInDTO } from "./dto/favoriteArticle.in";
 import { ArticleIn } from "./dto/globalFeed.in";
+import { NewCommentInDTO } from "./dto/newComment.in";
+import { NewCommentOutDTO } from "./dto/newComment.out";
 import { PopularTagsIn } from "./dto/popularTags.in";
 import { SingleArticleIn } from "./dto/singleArticle.in";
-import { replaceCachedArticle, transformResponse } from "./utils";
+import {
+  addNewCommentToCache,
+  removeCommentFromCache,
+  replaceCachedArticle,
+  transformResponse,
+} from "./utils";
 
 interface BaseFeedParams {
   page: number;
@@ -52,6 +59,16 @@ interface DeleteArticleParams {
 
 interface EditArticleParams extends CreateArticleParams {
   slug: string;
+}
+
+interface CreateCommentParams {
+  articleSlug: string;
+  comment: string;
+}
+
+interface deleteCommentParams {
+  id: number;
+  articleSlug: string;
 }
 
 export const feedApi = createApi({
@@ -102,6 +119,7 @@ export const feedApi = createApi({
       ArticleCommentsIn,
       SingleArticleParams
     >({
+      keepUnusedDataFor: 1,
       query: ({ slug }) => ({
         url: `/articles/${slug}/comments`,
       }),
@@ -172,6 +190,39 @@ export const feedApi = createApi({
         method: "delete",
       }),
     }),
+
+    createComment: builder.mutation<NewCommentInDTO, CreateCommentParams>({
+      query: ({ articleSlug, comment }) => {
+        const data: NewCommentOutDTO = {
+          comment: {
+            body: comment,
+          },
+        };
+        return {
+          url: `/articles/${articleSlug}/comments`,
+          method: "post",
+          data,
+        };
+      },
+      onQueryStarted: async ({}, { dispatch, queryFulfilled, getState }) => {
+        await addNewCommentToCache(getState, queryFulfilled, dispatch);
+      },
+    }),
+
+    deleteComment: builder.mutation<any, deleteCommentParams>({
+      query: ({ id, articleSlug }) => ({
+        url: `/articles/${articleSlug}/comments/${id}`,
+        method: "delete",
+      }),
+      onQueryStarted: async (
+        { id },
+        { dispatch, queryFulfilled, getState }
+      ) => {
+        await removeCommentFromCache(getState, queryFulfilled, dispatch, {
+          id,
+        });
+      },
+    }),
   }),
 });
 
@@ -186,4 +237,6 @@ export const {
   useCreateArticleMutation,
   useEditArticleMutation,
   useDeleteArticleMutation,
+  useCreateCommentMutation,
+  useDeleteCommentMutation,
 } = feedApi;
